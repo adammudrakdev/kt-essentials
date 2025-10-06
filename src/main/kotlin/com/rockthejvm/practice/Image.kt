@@ -25,6 +25,8 @@ class Image (val buffImage: BufferedImage) {
     * 4. Return the result image
     * */
     fun crop(x: Int, y: Int, width: Int, height: Int): Image? {
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return null
+        if (width < 0 || x + width > this.width || height < 0 || y + height > this.height) return null
         val black = black(width, height)
         var blackX = 0
         for (countX in x ..< x + width) {
@@ -58,8 +60,8 @@ class Image (val buffImage: BufferedImage) {
 object ImagePlayground {
     @JvmStatic
     fun main(args: Array<String>) {
-        val loadedImage = Image(loadResource("testimage.jpg"))
-        val crop = loadedImage.crop(125, 125, 256, 256)
+        val loadedImage = Image(loadResource("testImage.jpg"))
+        val crop = loadedImage.crop(1000, 2000, 2000, 4000)
         crop?.saveResources("cropped")
     }
 }
