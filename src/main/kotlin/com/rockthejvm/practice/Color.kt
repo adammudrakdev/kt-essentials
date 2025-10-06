@@ -42,6 +42,8 @@ class Color(val red: Int, val green: Int, val blue: Int) {
         val MAGENTA = Color(255, 0, 255)
         val CYAN = Color(0, 255, 255)
 
+        val GRAY = Color(128, 128, 128)
+
         fun fromHex(arg: Int): Color {
             val red = (arg and 0xFF0000) shr RED_BYTE_OFFSET
             val green = (arg and 0xFF00) shr GREEN_BYTE_OFFSET
