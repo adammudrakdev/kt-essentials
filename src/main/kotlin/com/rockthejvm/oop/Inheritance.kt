@@ -20,7 +20,30 @@ object Inheritance {
     class Adult(override val name: String, override val age: Int, idCard: String): Person(name, age)
 
     // restrict inheritance with 'final' keyword
+    open class Travel(val destination: String) {
+        final fun confirm(): String = "Congrats! You're going to $destination!"
+    }
 
+    open class Leisure {
+        open fun confirmExperience(): String = "Chill"
+    }
+
+    open class Travel_V2(val destination: String): Leisure() {
+        final override fun confirmExperience(): String {
+            return "Congrats! You're going to $destination!"
+        }
+    }
+
+    class SpecialTickets: Travel_V2("USA") {
+        // override fun confirmExperience(): String = "Seeing Breaking Benjamin!"
+        // stop inheritance!
+    }
+
+    sealed class ProtocolMessage(content: String) //auto opened
+
+    class BeginningExchange(flag: String, contents: String): ProtocolMessage(contents)
+    class Exchange(sender: String, receiver: String, contents: String): ProtocolMessage(contents)
+    object EndExchange : ProtocolMessage("")
 
 
     val animal: Animal = Dog()
