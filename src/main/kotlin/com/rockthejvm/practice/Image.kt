@@ -1,11 +1,12 @@
 package com.rockthejvm.practice
 
 import com.rockthejvm.practice.Image.Companion.loadResource
+import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 
-class Image (val buffImage: BufferedImage) {
+class Image (private val buffImage: BufferedImage) {
     val width = buffImage.width
     val height = buffImage.height
 
@@ -14,6 +15,10 @@ class Image (val buffImage: BufferedImage) {
 
     fun saveResources(path: String) =
         save("src/main/resources/$path.jpg")
+
+    fun draw(g: Graphics) {
+        g.drawImage(buffImage, 0, 0, null)
+    }
 
     /*
     * 1. Check dimensions - return null if any dimensaion is invalid
