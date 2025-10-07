@@ -2,11 +2,12 @@ package com.rockthejvm.practice
 
 import java.awt.Dimension
 import java.awt.Graphics
+import java.util.Scanner
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.WindowConstants
 
-object UI {
+object App {
     private lateinit var frame: JFrame
     private lateinit var imagePanel: ImagePanel
 
@@ -44,6 +45,11 @@ object UI {
     }
     @JvmStatic
     fun main(args: Array<String>) {
-        loadResource("anotherTestImage.jpg")
+        val scanner = Scanner(System.`in`)
+        while (true) {
+            print("> ")
+            val command = scanner.nextLine()
+            println(command)
+        }
     }
 }

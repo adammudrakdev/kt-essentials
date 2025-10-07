@@ -59,6 +59,10 @@ class Image (private val buffImage: BufferedImage) {
 
         fun loadResource(path: String) =
             load("src/main/resources/$path")
+
+        fun getBuffImage(image: Image): BufferedImage {
+            return image.buffImage
+        }
     }
 }
 
