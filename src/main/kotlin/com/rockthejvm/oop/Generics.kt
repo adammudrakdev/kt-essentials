@@ -41,6 +41,11 @@ object Generics {
     interface MyLinkedList<T> {
         fun head(): T
         fun tail(): MyLinkedList<T>
+
+        companion object {
+            fun <A> singleElem(elem: A): MyLinkedList<A> =
+                NonEmptyList(elem, EmptyList())
+        }
     }
 
     class EmptyList<A> : MyLinkedList<A> {
@@ -53,6 +58,12 @@ object Generics {
         override fun tail(): MyLinkedList<A> = t
     }
 
+    interface MyMap<K, V> //can have multiple type arguments
+
+    //generic functions
+    fun <A> singleElem(elem: A): MyLinkedList<A> = NonEmptyList(elem, EmptyList())
+
+
     @JvmStatic
     fun main(args: Array<String>) {
         // No generics
@@ -63,12 +74,26 @@ object Generics {
                         EmptyIntList()))))
 
         // With generics
-        val simpleNumbers2 = NonEmptyList<Int>(1,
+        val simpleNumbers2 = NonEmptyList(1,
             NonEmptyList(2,
                 NonEmptyList(3,
                     NonEmptyList(4,
-                        EmptyList<Int>()))))
+                        EmptyList()))))
 
+        val head: Int = simpleNumbers.head()
 
+        val simpleStringsWithSurpriseInt =
+            NonEmptyList("I",
+            NonEmptyList("love",
+                NonEmptyList("kotlin",
+                    NonEmptyList(1,
+                        EmptyList()))))
+        val simpleStringsWithNoSurprise: MyLinkedList<String> =
+            NonEmptyList("I",
+                NonEmptyList("love",
+                    NonEmptyList("kotlin",
+                        EmptyList())))
+
+        val singleElem = MyLinkedList.singleElem(42)
     }
 }
