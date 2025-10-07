@@ -1,7 +1,5 @@
 package com.rockthejvm.oop
 
-import java.awt.SystemColor.text
-
 object Delegation {
 
     interface TextTransformer {
