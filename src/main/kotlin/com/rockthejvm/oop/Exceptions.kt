@@ -39,8 +39,14 @@ object Exceptions {
         println("No matter what - I run")
     }
 
+    class MyException(val count: Int) : RuntimeException("Something went wrong") {
+        fun demoMyException() {
+            throw MyException(4)
+        }
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
-        println("age: ${maybePerson.age} name: ${maybePerson.name}")
+        demoExceptions()
     }
 }
