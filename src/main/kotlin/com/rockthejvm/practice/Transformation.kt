@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage
  */
 
 interface Transformation {
-    fun process(image: Image): Image?
+    fun process(image: Image): Image
 
     companion object {
         fun parse(transformationType: String): Transformation {
@@ -40,27 +40,21 @@ interface Transformation {
 }
 
 class Crop(val x: Int, val y: Int, val width: Int, val height: Int) : Transformation {
-    override fun process(image: Image): Image? {
-        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return null
-        if (x + width > this.width || y + height > this.height) return null
-        val processedImage = black(width, height)
-        var processedImageX = 0
-        for (countX in x ..< x + width) {
-            var processedImageY = 0
-            for (countY in y ..< y + height) {
-                val currentPixel = Image.getBuffImage(image).getRGB(countX, countY)
-                Image.getBuffImage(image).setRGB(processedImageX, processedImageY, currentPixel)
-                processedImageY++
-            }
-            processedImageX++
+    override fun process(image: Image): Image {
+        try {
+            return image.crop(x, y, width, height)!!
+        } catch (e: Exception) {
+            println("Error: coordinates are out of bounds. Max coordinates: ${image.width} X ${image.height}")
+            return image
         }
-        return processedImage
     }
 }
 
-class Blend(val foregroundImage: Image?, val blendMode: BlendMode?): Transformation {
-    override fun process(bgImage: Image): Image? {
-        return bgImage
+class Blend(val fgImage: Image, val blendMode: BlendMode?): Transformation {
+    override fun process(bgImage: Image): Image {
+        if (fgImage.width != bgImage.width || fgImage.height != bgImage.height) {
+            println("Error: pictures must be of the exact same size")
+        }
     }
 
 

@@ -49,7 +49,6 @@ object App {
     @JvmStatic
     fun main(args: Array<String>) {
         val scanner = Scanner(System.`in`)
-        val commands = arrayOf("load", "save", "exit")
         while (true) {
             print("Input your command...\n>")
             val fullCommand = scanner.nextLine()
@@ -65,9 +64,7 @@ object App {
             val partsOfCommand = fullCommand.split(" ")
             val firstPartOfCommand = partsOfCommand[0]
             val secondPartOfCommand = partsOfCommand[1]
-            if (!commands.contains(firstPartOfCommand)) {
-                println("Unknown action exception...Please try again...")
-            } else if (firstPartOfCommand == "load") {
+            if (firstPartOfCommand == "load") {
                 if (!secondPartOfCommand.endsWith(".jpg")) {
                     println("Unknown format exception...Please try again...")
                 } else {
@@ -78,14 +75,20 @@ object App {
                         println("Failed to load $secondPartOfCommand. Such a file might not exit...")
                     }
                 }
-            } else if (firstPartOfCommand == "save") {
-                if (!secondPartOfCommand.endsWith(".jpg")) {
-                    println("Unknown format exception...Please try again...")
-                } else if (!this::frame.isInitialized) {
+            } else {
+                if (!this::frame.isInitialized) {
                     println("No image has been loaded...Please try again...")
+                } else if (firstPartOfCommand == "save") {
+                    if (!secondPartOfCommand.endsWith(".jpg")) {
+                        println("Unknown format exception...Please try again...")
+                    } else {
+                        imagePanel.getImage().saveResources(secondPartOfCommand)
+                        println("Successfully saved ${fullCommand.split(" ")[1]}")
+                    }
                 } else {
-                    imagePanel.getImage().saveResources(secondPartOfCommand)
-                    println("Successfully saved ${fullCommand.split(" ")[1]}")
+                    val transformation = Transformation.parse(fullCommand)
+                    imagePanel.replaceImage(transformation.process(imagePanel.getImage()))
+                    frame.pack()
                 }
             }
         }
