@@ -6,6 +6,7 @@ import java.util.Scanner
 import javax.swing.JFrame
 import javax.swing.JPanel
 import javax.swing.WindowConstants
+import kotlin.system.exitProcess
 
 object App {
     private lateinit var frame: JFrame
@@ -26,6 +27,8 @@ object App {
             revalidate()
             repaint()
         }
+
+        fun getImage() = image
     }
 
     fun loadResource(path: String) {
@@ -46,10 +49,45 @@ object App {
     @JvmStatic
     fun main(args: Array<String>) {
         val scanner = Scanner(System.`in`)
+        val commands = arrayOf("load", "save", "exit")
         while (true) {
-            print("> ")
-            val command = scanner.nextLine()
-            println(command)
+            print("Input your command...\n>")
+            val fullCommand = scanner.nextLine()
+            if (fullCommand.lowercase().startsWith("exit")) {
+                println("Exiting the programme...")
+                exitProcess(0)
+            }
+
+            if (fullCommand.split(" ").size < 2) {
+                println("Command is too short! Please try again!")
+                continue
+            }
+            val partsOfCommand = fullCommand.split(" ")
+            val firstPartOfCommand = partsOfCommand[0]
+            val secondPartOfCommand = partsOfCommand[1]
+            if (!commands.contains(firstPartOfCommand)) {
+                println("Unknown action exception...Please try again...")
+            } else if (firstPartOfCommand == "load") {
+                if (!secondPartOfCommand.endsWith(".jpg")) {
+                    println("Unknown format exception...Please try again...")
+                } else {
+                    try {
+                        loadResource(secondPartOfCommand)
+                        println("Successfully loaded $secondPartOfCommand")
+                    } catch (_: Exception) {
+                        println("Failed to load $secondPartOfCommand. Such a file might not exit...")
+                    }
+                }
+            } else if (firstPartOfCommand == "save") {
+                if (!secondPartOfCommand.endsWith(".jpg")) {
+                    println("Unknown format exception...Please try again...")
+                } else if (!this::frame.isInitialized) {
+                    println("No image has been loaded...Please try again...")
+                } else {
+                    imagePanel.getImage().saveResources(secondPartOfCommand)
+                    println("Successfully saved ${fullCommand.split(" ")[1]}")
+                }
+            }
         }
     }
 }
