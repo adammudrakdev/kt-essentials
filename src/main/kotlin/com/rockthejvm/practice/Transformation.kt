@@ -1,8 +1,5 @@
 package com.rockthejvm.practice
 
-import com.rockthejvm.practice.Image.Companion.black
-import java.awt.image.BufferedImage
-
 /*
     1. Create an interface Transformation with a single 'process' method
         taking an Image and returning another Image;
@@ -43,18 +40,34 @@ class Crop(val x: Int, val y: Int, val width: Int, val height: Int) : Transforma
     override fun process(image: Image): Image {
         try {
             return image.crop(x, y, width, height)!!
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             println("Error: coordinates are out of bounds. Max coordinates: ${image.width} X ${image.height}")
             return image
         }
     }
 }
 
-class Blend(val fgImage: Image, val blendMode: BlendMode?): Transformation {
+class Blend(val fgImage: Image, val blendMode: BlendMode): Transformation {
     override fun process(bgImage: Image): Image {
         if (fgImage.width != bgImage.width || fgImage.height != bgImage.height) {
             println("Error: pictures must be of the exact same size")
+            return bgImage
         }
+        val black: Image = Image.black(bgImage.width, bgImage.height)
+        var blackX = 0
+        for (countX in 0 ..< bgImage.width) {
+            var blackY = 0
+            for (countY in 0 ..< bgImage.height) {
+                val fgPixel: Int = fgImage.getBuffImage().getRGB(countX, countY)
+                val bgPixel: Int = bgImage.getBuffImage().getRGB(countX, countY)
+                val mixedColor = blendMode.combine(
+                    Color.fromHex(fgPixel), Color.fromHex(bgPixel))
+                black.getBuffImage().setRGB(blackX, blackY, mixedColor.resultColor)
+                blackY++
+            }
+            blackX++
+        }
+        return black
     }
 
 

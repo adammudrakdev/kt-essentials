@@ -7,6 +7,8 @@ import java.io.File
 import javax.imageio.ImageIO
 
 class Image (private val buffImage: BufferedImage) {
+    fun getBuffImage() = buffImage
+
     val width = buffImage.width
     val height = buffImage.height
 

@@ -1,6 +1,5 @@
 package com.rockthejvm.practice
 
-import sun.awt.SunHints
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -56,29 +55,27 @@ class Color(val red: Int, val green: Int, val blue: Int) {
 
 
 fun main() {
-    val magenta = Color.MAGENTA
-    magenta.drawColor(300, 300, "magenta")
-
-    val yellow = Color.YELLOW
-    yellow.drawColor(300, 300, "yellow")
-
-    val cyan = Color.CYAN
-    cyan.drawColor(300, 300, "cyan")
-
-    val black = Color.BLACK
-    black.drawColor(300, 300, "black")
-
-    val white = Color.WHITE
-    white.drawColor(300, 300, "white")
-
-    val red = Color.RED
-    red.drawColor(300, 300, "red")
-
-    val green = Color.GREEN
-    green.drawColor(300, 300, "green")
+//    val magenta = Color.MAGENTA
+//    magenta.drawColor(300, 300, "magenta")
+//
+//    val yellow = Color.YELLOW
+//    yellow.drawColor(300, 300, "yellow")
+//
+//    val cyan = Color.CYAN
+//    cyan.drawColor(300, 300, "cyan")
+//
+//    val black = Color.BLACK
+//    black.drawColor(300, 300, "black")
+//
+//    val white = Color.WHITE
+//    white.drawColor(300, 300, "white")
+//
+//    val red = Color.RED
+//    red.drawColor(300, 300, "red")
+//
+//    val green = Color.GREEN
+//    green.drawColor(300, 300, "green")
 
     val blue = Color.BLUE
-    blue.drawColor(300, 300, "blue")
-
-    val fromHex = Color.fromHex(0xEDEDED).drawColor(300, 300)
+    blue.drawColor(612, 410, "blue")
 }
