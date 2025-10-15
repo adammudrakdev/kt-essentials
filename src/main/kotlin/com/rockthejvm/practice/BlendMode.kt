@@ -1,7 +1,5 @@
 package com.rockthejvm.practice
 
-import com.sun.org.apache.xpath.internal.operations.Mult
-
 const val COLOUR_CEILING = 255.0
 const val INVERT_FACTOR = 1.0
 const val DEFAULT_TRANSPARENCY_FACTOR = 0.5
@@ -66,26 +64,4 @@ object Screen : BlendMode {
 
 object NoBlend: BlendMode {
     override fun combine(foregroundColor: Color, backgroundColor: Color): Color = foregroundColor
-}
-
-object BlendPlayground {
-    @JvmStatic
-    fun main(args: Array<String>) {
-        Transparency(0.5).combine(Color.RED, Color.BLUE)
-            .drawColor(100, 100, "transparency_dark_magenta")
-
-        Multiply.combine(Color.RED, Color.GRAY)
-            .drawColor(100, 100, "multiply_dark_red")
-
-        Multiply.combine(Color.RED, Color.BLUE)
-            .drawColor(100, 100, "multiply_black")
-
-        Screen.combine(Color.RED, Color.GRAY)
-            .drawColor(100, 100, "light_red")
-
-        NoBlend.combine(Color.RED, Color.GRAY).drawColor(100, 100, "red")
-
-        BlendMode.parse("transparency").combine(Color.RED, Color.BLUE)
-            .drawColor(100, 100, "companion_object_transparency_dark_magenta")
-    }
 }

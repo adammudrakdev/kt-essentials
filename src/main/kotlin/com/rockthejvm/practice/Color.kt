@@ -83,31 +83,3 @@ class Color(val red: Int, val green: Int, val blue: Int) {
         }
     }
 }
-
-
-
-fun main() {
-//    val magenta = Color.MAGENTA
-//    magenta.drawColor(300, 300, "magenta")
-//
-//    val yellow = Color.YELLOW
-//    yellow.drawColor(300, 300, "yellow")
-//
-//    val cyan = Color.CYAN
-//    cyan.drawColor(300, 300, "cyan")
-//
-//    val black = Color.BLACK
-//    black.drawColor(300, 300, "black")
-//
-//    val white = Color.WHITE
-//    white.drawColor(300, 300, "white")
-//
-//    val red = Color.RED
-//    red.drawColor(300, 300, "red")
-//
-//    val green = Color.GREEN
-//    green.drawColor(300, 300, "green")
-
-    val blue = Color.BLUE
-    blue.drawColor(612, 410, "blue")
-}
