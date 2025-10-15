@@ -1,6 +1,5 @@
 package com.rockthejvm.practice
 
-import com.rockthejvm.practice.Image.Companion.loadResource
 import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
@@ -22,15 +21,6 @@ class Image (private val buffImage: BufferedImage) {
         g.drawImage(buffImage, 0, 0, null)
     }
 
-    /*
-    * 1. Check dimensions - return null if any dimensaion is invalid
-    * 2. Create a black image of width * height
-    * 3. Iterate through coords x ..< x + w, y ..< y + h
-    *       - use buffImage.getRGB to get a pixel from original image;
-    *       - use resultImage.buffImage.setRGB to set a pixel in the result;
-    *       - calculate the coordinates;
-    * 4. Return the result image
-    * */
     fun crop(x: Int, y: Int, width: Int, height: Int): Image? {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) return null
         if (width < 0 || x + width > this.width || height < 0 || y + height > this.height) return null
@@ -57,22 +47,9 @@ class Image (private val buffImage: BufferedImage) {
             return Image(buffImage)
         }
 
-        fun load(path: String) = ImageIO.read(File(path))
+        fun load(path: String): BufferedImage = ImageIO.read(File(path))
 
         fun loadResource(path: String) =
-            load("src/main/resources/$path")
-
-        fun getBuffImage(image: Image): BufferedImage {
-            return image.buffImage
-        }
-    }
-}
-
-object ImagePlayground {
-    @JvmStatic
-    fun main(args: Array<String>) {
-        val loadedImage = Image(loadResource("testImage.jpg"))
-        val crop = loadedImage.crop(1000, 2000, 2000, 4000)
-        crop?.saveResources("cropped")
+            load("src/main/resources/$path.jpg")
     }
 }

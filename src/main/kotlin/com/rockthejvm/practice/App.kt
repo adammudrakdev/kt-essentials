@@ -48,46 +48,49 @@ object App {
     }
     @JvmStatic
     fun main(args: Array<String>) {
+        println("""
+            You are hereby presented with examples of possible commands:
+            1) exit -> exit the programme;
+            2) load test -> load an image to panel;
+            3) save test -> save the image from the panel to resources;
+            4) crop 0 0 400 400 -> crop x y z w -> crop loaded picture at x + z, y + w 
+            5) blend another_test.jpg transparency (OR multiply OR screen)
+                -> blend loaded picture with another picture;
+            6) invert -> inverts colours of the loaded image;
+            7) grayscale -> make the loaded image black&white;
+            8) otherwise no operation will be proceeded;
+            9) programme only works with jpgs, do not specify file extension;
+        """.trimIndent())
         val scanner = Scanner(System.`in`)
         while (true) {
             print("Input your command...\n>")
             val fullCommand = scanner.nextLine()
-            if (fullCommand.lowercase().startsWith("exit")) {
+            val commands = fullCommand.split(" ")
+
+            if (commands.isEmpty()) {
+                println("Nothing was entered... Try again...")
+                continue
+            } else if (commands[0].lowercase().startsWith("exit")) {
                 println("Exiting the programme...")
                 exitProcess(0)
-            }
-
-            if (fullCommand.split(" ").size < 2) {
-                println("Command is too short! Please try again!")
-                continue
-            }
-            val partsOfCommand = fullCommand.split(" ")
-            val firstPartOfCommand = partsOfCommand[0]
-            val secondPartOfCommand = partsOfCommand[1]
-            if (firstPartOfCommand == "load") {
-                if (!secondPartOfCommand.endsWith(".jpg")) {
-                    println("Unknown format exception...Please try again...")
-                } else {
-                    try {
-                        loadResource(secondPartOfCommand)
-                        println("Successfully loaded $secondPartOfCommand")
-                    } catch (_: Exception) {
-                        println("Failed to load $secondPartOfCommand. Such a file might not exit...")
-                    }
+            } else if (commands[0].lowercase() == "load") {
+                try {
+                    loadResource(commands[1])
+                    println("Successfully loaded ${commands[1]}")
+                } catch (_: Exception) {
+                    println("Failed to load ${commands[1]}. Such a file might not exist...")
                 }
+            } else if (!this::frame.isInitialized) {
+                println("No image has been loaded...Please try again...")
+                continue
             } else {
-                if (!this::frame.isInitialized) {
-                    println("No image has been loaded...Please try again...")
-                } else if (firstPartOfCommand == "save") {
-                    if (!secondPartOfCommand.endsWith(".jpg")) {
-                        println("Unknown format exception...Please try again...")
-                    } else {
-                        imagePanel.getImage().saveResources(secondPartOfCommand)
-                        println("Successfully saved ${fullCommand.split(" ")[1]}")
-                    }
+                if (commands[0].lowercase() == "save") {
+                    imagePanel.getImage().saveResources(commands[1])
+                    println("Successfully saved ${commands[1]}.jpg")
                 } else {
-                    val transformation = Transformation.parse(fullCommand)
-                    imagePanel.replaceImage(transformation.process(imagePanel.getImage()))
+                    imagePanel.replaceImage(
+                        Transformation.parse(fullCommand)
+                            .process(imagePanel.getImage()))
                     frame.pack()
                 }
             }

@@ -30,6 +30,38 @@ class Color(val red: Int, val green: Int, val blue: Int) {
         ImageIO.write(image, "JPG", File("src/main/resources/colors/${color}_${(Math.random() * 1000).toInt()}.jpg"))
     }
 
+    fun clampColour(v: Int) =
+        if (v <=0) 0
+        else if (v >= 255) 255
+        else v
+
+    operator fun plus(other: Color): Color =
+        Color(clampColour(red + other.red),
+            clampColour(green + other.green),
+            clampColour(blue + other.blue))
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Color
+
+        if (red != other.red) return false
+        if (green != other.green) return false
+        if (blue != other.blue) return false
+        if (resultColor != other.resultColor) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = red
+        result = 31 * result + green
+        result = 31 * result + blue
+        result = 31 * result + resultColor
+        return result
+    }
+
     companion object {
         val BLACK = Color(0, 0, 0)
         val WHITE = Color(255, 255, 255)
@@ -50,32 +82,4 @@ class Color(val red: Int, val green: Int, val blue: Int) {
             return Color(red, green, blue)
         }
     }
-}
-
-
-
-fun main() {
-//    val magenta = Color.MAGENTA
-//    magenta.drawColor(300, 300, "magenta")
-//
-//    val yellow = Color.YELLOW
-//    yellow.drawColor(300, 300, "yellow")
-//
-//    val cyan = Color.CYAN
-//    cyan.drawColor(300, 300, "cyan")
-//
-//    val black = Color.BLACK
-//    black.drawColor(300, 300, "black")
-//
-//    val white = Color.WHITE
-//    white.drawColor(300, 300, "white")
-//
-//    val red = Color.RED
-//    red.drawColor(300, 300, "red")
-//
-//    val green = Color.GREEN
-//    green.drawColor(300, 300, "green")
-
-    val blue = Color.BLUE
-    blue.drawColor(612, 410, "blue")
 }
